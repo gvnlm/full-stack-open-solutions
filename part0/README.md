@@ -7,7 +7,7 @@ sequenceDiagram
 
     Browser->>Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate Server
-    note right of Browser: Browser sends user input to Server
+    note right of Browser: Browser sends the inputted note to Server
     note left of Server: Server updates notes
     Server-->>Browser: Redirect to https://studies.cs.helsinki.fi/exampleapp/notes
     deactivate Server
@@ -74,11 +74,11 @@ sequenceDiagram
     participant Browser
     participant Server
 
-    note right of Browser: Browser re-renders the notes currently on the page, as well as rendering the newly created note
+    note right of Browser: Browser re-renders the notes currently on the page, as well as rendering the inputted note
         
     Browser->>Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
     activate Server
-    note right of Browser: Browser sends newly created note to Server
+    note right of Browser: Browser sends the inputted note to Server
     note left of Server: Server updates notes
     Server-->>Browser: HTTP status code: 201 Created (i.e., the request succeeded, creating a new resource as a result)    
 ```
