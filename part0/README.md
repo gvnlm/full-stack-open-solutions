@@ -67,3 +67,18 @@ sequenceDiagram
     note right of Browser: Browser executes the event handler (as defined in main.js) that renders the notes stored in data.json
 ```
 
+<h1>0.6: New note in Single page app diagram</h1>
+
+```mermaid
+    sequenceDiagram
+    participant Browser
+    participant Server
+
+    note right of Browser: Browser re-renders the notes currently on the page, as well as rendering the newly created note
+        
+    Browser->>Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate Server
+    note right of Browser: Browser sends newly created note to Server
+    note left of Server: Server updates notes
+    Server-->>Browser: HTTP status code: 201 Created (i.e., the request succeeded, creating a new resource as a result)    
+```
