@@ -36,3 +36,34 @@ sequenceDiagram
     deactivate Server
     note right of Browser: Browser executes the event handler (as defined in main.js) that renders the notes stored in data.json
 ```
+
+<h1>0.5: Single page app diagram</h1>
+
+```mermaid
+    sequenceDiagram
+    participant Browser
+    participant Server
+    
+    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate Server
+    Server-->>Browser: spa(.html)
+    deactivate Server
+
+    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate Server
+    Server-->>Browser: main.css
+    deactivate Server
+
+    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate Server
+    Server-->>Browser: spa.js
+    deactivate Server
+    note right of Browser: Browser executes spa.js which requests data.json from Server
+
+    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate Server
+    Server-->>Browser: data.json
+    deactivate Server
+    note right of Browser: Browser executes the event handler (as defined in main.js) that renders the notes stored in data.json
+```
+
