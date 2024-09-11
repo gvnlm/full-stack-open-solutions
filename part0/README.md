@@ -7,32 +7,32 @@ sequenceDiagram
     participant Browser
     participant Server
 
-    Browser->>Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    Browser->>Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate Server
     note right of Browser: Browser sends the inputted note to Server
     note left of Server: Server updates notes
-    Server-->>Browser: HTTP status code: 302 Found (i.e., redirect to https://studies.cs.helsinki.fi/exampleapp/notes)
+    Server-->>Browser: 302 Found (i.e., redirect to https://studies.cs.helsinki.fi/exampleapp/notes)
     deactivate Server
 
     
     
-    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate Server
     Server-->>Browser: notes(.html)
     deactivate Server
 
-    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate Server
     Server-->>Browser: main.css
     deactivate Server
 
-    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
     activate Server
     Server-->>Browser: main.js
     deactivate Server
     note right of Browser: Browser executes main.js which requests data.json from Server
 
-    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate Server
     Server-->>Browser: data.json
     deactivate Server
@@ -46,23 +46,23 @@ sequenceDiagram
     participant Browser
     participant Server
     
-    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/spa
     activate Server
     Server-->>Browser: spa(.html)
     deactivate Server
 
-    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate Server
     Server-->>Browser: main.css
     deactivate Server
 
-    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
     activate Server
     Server-->>Browser: spa.js
     deactivate Server
     note right of Browser: Browser executes spa.js which requests data.json from Server
 
-    Browser->>Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate Server
     Server-->>Browser: data.json
     deactivate Server
@@ -78,10 +78,10 @@ sequenceDiagram
 
     note right of Browser: Browser re-renders the notes currently on the page, as well as rendering the inputted note
         
-    Browser->>Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    Browser->>Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
     activate Server
     note right of Browser: Browser sends the inputted note to Server
     note left of Server: Server updates notes
-    Server-->>Browser: HTTP status code: 201 Created (i.e., the request succeeded, creating a new resource as a result)
+    Server-->>Browser: 201 Created (i.e., the request succeeded, creating a new resource as a result)
     deactivate Server    
 ```
