@@ -1,4 +1,5 @@
 https://fullstackopen.com/en/part0/fundamentals_of_web_apps#exercises-0-1-0-6
+
 <h1>0.4: New note diagram</h1>
 
 ```mermaid
@@ -10,7 +11,7 @@ sequenceDiagram
     activate Server
     note right of Browser: Browser sends the inputted note to Server
     note left of Server: Server updates notes
-    Server-->>Browser: Redirect to https://studies.cs.helsinki.fi/exampleapp/notes
+    Server-->>Browser: HTTP status code: 302 Found (i.e., redirect to https://studies.cs.helsinki.fi/exampleapp/notes)
     deactivate Server
 
     
