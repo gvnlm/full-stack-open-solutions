@@ -80,5 +80,6 @@ sequenceDiagram
     activate Server
     note right of Browser: Browser sends the inputted note to Server
     note left of Server: Server updates notes
-    Server-->>Browser: HTTP status code: 201 Created (i.e., the request succeeded, creating a new resource as a result)    
+    Server-->>Browser: HTTP status code: 201 Created (i.e., the request succeeded, creating a new resource as a result)
+    deactivate Server    
 ```
