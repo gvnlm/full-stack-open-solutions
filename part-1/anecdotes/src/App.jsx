@@ -14,12 +14,21 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(new Uint16Array(anecdotes.length));
 
   const changeSelected = () => setSelected(getRandomIndex(anecdotes));
+
+  const voteSelected = () => {
+    const updatedVotes = [...votes];
+    updatedVotes[selected] += 1;
+    setVotes(updatedVotes);
+  };
 
   return (
     <div>
       {anecdotes[selected]}<br />
+      has {votes[selected]} votes<br />
+      <button onClick={voteSelected}>vote</button>
       <button onClick={changeSelected}>next anecdote</button>
     </div>
   );
