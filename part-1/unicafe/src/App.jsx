@@ -33,33 +33,12 @@ const GiveFeedback = ({
 );
 
 
-const Statistics = ({ good, neutral, bad }) => {
-  const all = good + neutral + bad;
-
-  if (all === 0) {
-    return (
-      <>
-        <h1>statistics</h1>
-        <p>No feedback given</p>
-      </>
-    );
-  }
-  
-  const average = (good - bad) / all;
-  const positive = (good / all) * 100;
-
-  return (
-    <>
-      <h1>statistics</h1>
-      <StatisticLine text='good' value={good} />
-      <StatisticLine text='neutral' value={neutral} />
-      <StatisticLine text='bad' value={bad} />
-      <StatisticLine text='all' value={all} />
-      <StatisticLine text='average' value={average.toFixed(2)} />
-      <StatisticLine text='positive' value={positive.toFixed(2)} />
-    </>
-  );
-};
+const Statistics = ({ good, neutral, bad }) => (
+  <>
+    <h1>statistics</h1>
+    <StatisticsTable good={good} neutral={neutral} bad={bad} />
+  </>
+);
 
 
 const Button = ({ handleClick, text }) => (
@@ -67,7 +46,45 @@ const Button = ({ handleClick, text }) => (
 );
 
 
-const StatisticLine = ({ text, value }) => <>{text} {value}<br /></>;
+const StatisticsTable = ({ good, bad, neutral }) => {
+  const all = good + neutral + bad;
+
+  if (all === 0) return <p>No feedback given</p>;
+
+  const average = (good - bad) / all;
+  const positive = (good / all) * 100;
+
+  return (
+    <table>
+      <tbody>
+        <tr>
+          <th>good</th>
+          <td>{good}</td>
+        </tr>
+        <tr>
+          <th>neutral</th>
+          <td>{neutral}</td>
+        </tr>
+        <tr>
+          <th>bad</th>
+          <td>{bad}</td>
+        </tr>
+        <tr>
+          <th>all</th>
+          <td>{all}</td>
+        </tr>
+        <tr>
+          <th>average</th>
+          <td>{average.toFixed(2)}</td>
+        </tr>
+        <tr>
+          <th>positive</th>
+          <td>{positive.toFixed(2)}</td>
+        </tr>
+      </tbody>
+    </table>
+  );
+};
 
 
 export default App;
