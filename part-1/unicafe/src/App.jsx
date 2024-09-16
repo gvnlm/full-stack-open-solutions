@@ -26,9 +26,9 @@ const GiveFeedback = ({
 }) => (
   <>
     <h1>give feedback</h1>
-    <button onClick={() => setGood(good + 1)}>good</button>
-    <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
-    <button onClick={() => setBad(bad + 1)}>bad</button>
+    <Button handleClick={() => setGood(good + 1)} text='good' />
+    <Button handleClick={() => setNeutral(neutral + 1)} text='neutral' />
+    <Button handleClick={() => setBad(bad + 1)} text='bad' />
   </>
 );
 
@@ -51,17 +51,23 @@ const Statistics = ({ good, neutral, bad }) => {
   return (
     <>
       <h1>statistics</h1>
-      <p>
-          good {good}<br />
-          neutral {neutral}<br />
-          bad {bad}<br />
-          all {all}<br />
-          average {average.toFixed(2)}<br />
-          positive {positive.toFixed(2)} %
-      </p>
+      <StatisticLine text='good' value={good} />
+      <StatisticLine text='neutral' value={neutral} />
+      <StatisticLine text='bad' value={bad} />
+      <StatisticLine text='all' value={all} />
+      <StatisticLine text='average' value={average.toFixed(2)} />
+      <StatisticLine text='positive' value={positive.toFixed(2)} />
     </>
   );
 };
+
+
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
+);
+
+
+const StatisticLine = ({ text, value }) => <>{text} {value}<br /></>;
 
 
 export default App;
