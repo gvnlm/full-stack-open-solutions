@@ -13,29 +13,47 @@ const App = () => {
     'The only way to go fast, is to go well.',
   ];
 
+  // State
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(new Uint16Array(anecdotes.length));
 
+  // Event handlers
   const changeSelected = () => setSelected(getRandomIndex(anecdotes));
-
   const voteSelected = () => {
     const updatedVotes = [...votes];
     updatedVotes[selected] += 1;
     setVotes(updatedVotes);
   };
 
+  const anecdoteWithMostVotes = anecdotes[getIndexOfMaxValue(votes)];
+  const mostVotes = votes[getIndexOfMaxValue(votes)];
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]}<br />
       has {votes[selected]} votes<br />
       <button onClick={voteSelected}>vote</button>
       <button onClick={changeSelected}>next anecdote</button>
+
+      <h1>Anecdote with the most votes</h1>
+      {anecdoteWithMostVotes}<br />
+      with {mostVotes} votes
     </div>
   );
 };
 
 
 const getRandomIndex = (array) => Math.floor(Math.random() * array.length);
+
+
+const getIndexOfMaxValue = (array) => 
+  array.reduce(
+    (indexOfMaxValue, currentValue, currentIndex) => (
+      (currentValue > array[indexOfMaxValue]) ? currentIndex : indexOfMaxValue
+    ), 
+    0
+  );
 
 
 export default App;
