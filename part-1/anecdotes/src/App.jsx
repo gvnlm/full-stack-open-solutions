@@ -47,13 +47,14 @@ const App = () => {
 const getRandomIndex = (array) => Math.floor(Math.random() * array.length);
 
 
-const getIndexOfMaxValue = (array) => 
+const getIndexOfMaxValue = (array) => (
   array.reduce(
     (indexOfMaxValue, currentValue, currentIndex) => (
       (currentValue > array[indexOfMaxValue]) ? currentIndex : indexOfMaxValue
     ), 
     0
-  );
+  )
+);
 
 
 export default App;
