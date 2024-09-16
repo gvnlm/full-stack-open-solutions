@@ -33,16 +33,25 @@ const GiveFeedback = ({
 );
 
 
-const Statistics = ({ good, neutral, bad }) => (
-  <>
-    <h1>statistics</h1>
-    <p>
-        good {good}<br />
-        neutral {neutral}<br />
-        bad {bad}
-    </p>
-  </>
-);
+const Statistics = ({ good, neutral, bad }) => {
+  const all = good + neutral + bad;
+  const average = (all === 0) ? 0 : (good - bad) / all;
+  const positive = (all === 0) ? 0 : (good / all) * 100;
+
+  return (
+    <>
+      <h1>statistics</h1>
+      <p>
+          good {good}<br />
+          neutral {neutral}<br />
+          bad {bad}<br />
+          all {all}<br />
+          average {average.toFixed(2)}<br />
+          positive {positive.toFixed(2)} %
+      </p>
+    </>
+  );
+};
 
 
 export default App;
