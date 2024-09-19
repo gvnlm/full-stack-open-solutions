@@ -13,7 +13,7 @@ const App = () => {
     'The only way to go fast, is to go well.',
   ];
 
-  // State
+  // States
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(new Uint16Array(anecdotes.length));
 
