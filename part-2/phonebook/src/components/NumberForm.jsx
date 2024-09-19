@@ -6,6 +6,7 @@ const NumberForm = ({
   handleSubmit,
 }) => (
   <form onSubmit={handleSubmit}>
+    <h2>add a new</h2>
     <div>
       <label htmlFor="name">name: </label>
       <input id="name" type="text" value={name} onChange={handleNameChange} />

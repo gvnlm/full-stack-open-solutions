@@ -1,19 +1,27 @@
 import { useState } from 'react';
 import Numbers from './components/Numbers';
 import NumberForm from './components/NumberForm';
+import Filter from './components/Filter';
 
 const App = () => {
+  // States
   const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-1234567'}]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
+  const [nameFilter, setNameFilter] = useState('');
 
+  // Event handlers
   const updateNewName = (event) => setNewName(event.target.value);
   const updateNewNumber = (event) => setNewNumber(event.target.value);
+  const updateNameFilter = (event) => setNameFilter(event.target.value);
   const addNewNumber = (event) => {
     event.preventDefault();
 
+    // Remove leading and trailing whitespace characters
+    const newNameTrimmed = newName.trim();
+
     // Ensure both input fields are non-empty
-    if (newName === '') {
+    if (newNameTrimmed === '') {
       alert('Please enter a name.')
       return;
     }
@@ -21,9 +29,6 @@ const App = () => {
       alert('Please enter a number.')
       return;
     }
-
-    // Remove leading and trailing whitespace characters
-    const newNameTrimmed = newName.trim();
 
     // Prevent user from adding already existing names in the phonebook
     if (persons.find(({ name }) => name === newNameTrimmed)) {
@@ -39,6 +44,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Filter value={nameFilter} handleChange={updateNameFilter} />
       <NumberForm 
         name={newName} 
         handleNameChange={updateNewName}
@@ -46,7 +52,7 @@ const App = () => {
         handleNumberChange={updateNewNumber} 
         handleSubmit={addNewNumber}
       />
-      <Numbers persons={persons} />
+      <Numbers persons={persons} nameFilter={nameFilter} />
     </div>
   );
 };
