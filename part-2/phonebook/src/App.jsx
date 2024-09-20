@@ -1,14 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Numbers from './components/Numbers';
 import NumberForm from './components/NumberForm';
 import Filter from './components/Filter';
 
 const App = () => {
   // States
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '040-1234567'}]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [nameFilter, setNameFilter] = useState('');
+
+  // Effects
+  const fetchPersons = () => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then((response) => setPersons(response.data));
+  };
+  useEffect(fetchPersons, []);
 
   // Event handlers
   const updateNewName = (event) => setNewName(event.target.value);
