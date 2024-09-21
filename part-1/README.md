@@ -1,3 +1,5 @@
+[Exercises](https://fullstackopen.com/en/part1)
+
 # Deployments
 
 * [Course Information](https://gvnlm.github.io/full-stack-open-solutions/part-1/course-information/)
