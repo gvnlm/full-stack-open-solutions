@@ -1,4 +1,4 @@
-const Numbers = ({ persons, nameFilter }) => {
+const Numbers = ({ persons, nameFilter, removePerson }) => {
   const personsFiltered = (
     persons.filter(
       ({ name }) => name.toLowerCase().includes(nameFilter.toLowerCase().trim())
@@ -8,7 +8,9 @@ const Numbers = ({ persons, nameFilter }) => {
   return (
     <>
       <h2>Numbers</h2>
-      {personsFiltered.map(({ name, number }) => <p key={name}>{name} {number}</p>)}
+      {personsFiltered.map(({ name, number, id }) => (
+        <p key={name}>{name} {number} <button onClick={() => removePerson(id)}>delete</button></p>
+      ))}
     </>
   );
 };

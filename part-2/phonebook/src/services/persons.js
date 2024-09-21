@@ -14,7 +14,10 @@ const add = (person) => (
     .then((response) => response.data)
 );
 
+const remove = (id) => axios.delete(`${BASE_URL}/${id}`);
+
 export default { 
   getAll, 
   add,
+  remove,
 };
