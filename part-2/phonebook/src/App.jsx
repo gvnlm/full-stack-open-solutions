@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import Numbers from './components/Numbers';
 import NumberForm from './components/NumberForm';
 import Filter from './components/Filter';
+import personService from './services/persons';
 
 const App = () => {
   // States
@@ -12,12 +12,12 @@ const App = () => {
   const [nameFilter, setNameFilter] = useState('');
 
   // Effects
-  const fetchPersons = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then((response) => setPersons(response.data));
-  };
-  useEffect(fetchPersons, []);
+  useEffect(() => {
+    // Get then render all persons from back-end server (i.e., db.json)
+    personService
+      .getAll()
+      .then((persons) => setPersons(persons));
+  }, []);
 
   // Event handlers
   const updateNewName = (event) => setNewName(event.target.value);
@@ -31,11 +31,11 @@ const App = () => {
 
     // Ensure both input fields are non-empty
     if (newNameTrimmed === '') {
-      alert('Please enter a name.')
+      alert('Please enter a name.');
       return;
     }
     if (newNumber === '') {
-      alert('Please enter a number.')
+      alert('Please enter a number.');
       return;
     }
 
@@ -45,7 +45,11 @@ const App = () => {
       return;
     }
 
-    setPersons([...persons, { name: newNameTrimmed, number: newNumber }]);
+    // Add new person to back-end server (i.e., db.json)
+    personService
+      .add({ name: newNameTrimmed, number: newNumber })
+      .then((person) => setPersons([...persons, person]));
+
     setNewName('');
     setNewNumber('');
   };
@@ -54,11 +58,11 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter value={nameFilter} handleChange={updateNameFilter} />
-      <NumberForm 
-        name={newName} 
+      <NumberForm
+        name={newName}
         handleNameChange={updateNewName}
         number={newNumber}
-        handleNumberChange={updateNewNumber} 
+        handleNumberChange={updateNewNumber}
         handleSubmit={addNewNumber}
       />
       <Numbers persons={persons} nameFilter={nameFilter} />
