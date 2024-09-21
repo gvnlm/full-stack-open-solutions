@@ -39,9 +39,26 @@ const App = () => {
       return;
     }
 
-    // Prevent user from adding already existing names in the phonebook
-    if (persons.find(({ name }) => name === newNameTrimmed)) {
-      alert(`${newNameTrimmed} is already added to phonebook`);
+    const duplicate = persons.find(({ name }) => name === newNameTrimmed);
+
+    // If person's number is already in phonebook
+    if (duplicate) {
+      if (!window.confirm(`${newNameTrimmed} is already added to phonebook, replace the old number with a new one?`)) {
+        return;
+      }
+      
+      // Replace person's current number with new number
+      personService
+        // Edit person's number on back-end server (i.e., db.json)
+        .edit(duplicate.id, { number: newNumber })
+        .then((editedPerson) => (
+          setPersons(
+            persons.map(
+              (person) => (person.id === editedPerson.id) ? editedPerson : person
+            )
+          )
+        ));
+      
       return;
     }
 
