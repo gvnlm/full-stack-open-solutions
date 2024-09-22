@@ -2,14 +2,19 @@ import { useState, useEffect } from 'react';
 import Numbers from './components/Numbers';
 import NumberForm from './components/NumberForm';
 import Filter from './components/Filter';
+import Notification from './components/Notification';
 import personService from './services/persons';
 
 const App = () => {
+  // Constants
+  const NOTIFICATION_TIMEOUT = 3000;
+
   // States
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [nameFilter, setNameFilter] = useState('');
+  const [notification, setNotification] = useState(null);
 
   // Effects
   useEffect(() => {
@@ -52,13 +57,14 @@ const App = () => {
         // Edit person's number on back-end server (i.e., db.json)
         .edit(duplicate.id, { number: newNumber })
         // Edit person's number on screen
-        .then((editedPerson) => (
+        .then((editedPerson) => {
           setPersons(
             persons.map(
               (person) => (person.id === editedPerson.id) ? editedPerson : person
             )
-          )
-        ));
+          );
+          notify(`Edited ${editedPerson.name}'s number`, 'edit');
+        });
       
       return;
     }
@@ -67,7 +73,10 @@ const App = () => {
       // Add new person to back-end server (i.e., db.json)
       .add({ name: newNameTrimmed, number: newNumber })
       // Render new person to screen
-      .then((person) => setPersons([...persons, person]));
+      .then((person) => {
+        setPersons([...persons, person]);
+        notify(`Added ${newNameTrimmed}`, 'add');
+      });
 
     setNewName('');
     setNewNumber('');
@@ -82,11 +91,27 @@ const App = () => {
 
     personService.remove(id);
     setPersons(persons.filter((person) => person.id !== id));
+    notify(`Removed ${name}`, 'remove');
+  };
+
+  const notify = (message, type) => {
+    // If there is already a timeout queued, clear it so that it does not 
+    // prematurely set the new notification message to null
+    if (notification) {
+      clearTimeout(notification.timeoutId);
+    }
+    
+    setNotification({
+      message,
+      type,
+      timeoutId: setTimeout(() => setNotification(null), NOTIFICATION_TIMEOUT),
+    });
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification} />
       <Filter value={nameFilter} handleChange={updateNameFilter} />
       <NumberForm
         name={newName}
@@ -95,7 +120,11 @@ const App = () => {
         handleNumberChange={updateNewNumber}
         handleSubmit={addNewNumber}
       />
-      <Numbers persons={persons} nameFilter={nameFilter} removePerson={removePerson} />
+      <Numbers 
+        persons={persons} 
+        nameFilter={nameFilter} 
+        removePerson={removePerson} 
+      />
     </div>
   );
 };
