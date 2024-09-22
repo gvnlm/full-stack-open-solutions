@@ -88,10 +88,13 @@ const App = () => {
     if (!window.confirm(`Delete ${name} ?`)) {
       return;
     }
+    
+    personService
+      .remove(id)
+      .then(() => notify(`Removed ${name}`, 'remove'))
+      .catch(() => notify(`Information of ${name} has already been removed from server`, 'remove'));
 
-    personService.remove(id);
     setPersons(persons.filter((person) => person.id !== id));
-    notify(`Removed ${name}`, 'remove');
   };
 
   const notify = (message, type) => {
