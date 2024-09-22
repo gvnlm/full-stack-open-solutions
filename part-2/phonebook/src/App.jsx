@@ -51,6 +51,7 @@ const App = () => {
       personService
         // Edit person's number on back-end server (i.e., db.json)
         .edit(duplicate.id, { number: newNumber })
+        // Edit person's number on screen
         .then((editedPerson) => (
           setPersons(
             persons.map(
@@ -62,9 +63,10 @@ const App = () => {
       return;
     }
 
-    // Add new person to back-end server (i.e., db.json)
     personService
+      // Add new person to back-end server (i.e., db.json)
       .add({ name: newNameTrimmed, number: newNumber })
+      // Render new person to screen
       .then((person) => setPersons([...persons, person]));
 
     setNewName('');
