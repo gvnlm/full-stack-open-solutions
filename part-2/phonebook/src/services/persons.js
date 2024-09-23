@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3001/persons';
+const BASE_URL = 'http://localhost:3001/persons/';
 
 const getAll = () => (
   axios
@@ -14,11 +14,11 @@ const add = (person) => (
     .then((response) => response.data)
 );
 
-const remove = (id) => axios.delete(`${BASE_URL}/${id}`);
+const remove = (id) => axios.delete(`${BASE_URL}${id}`);
 
 const edit = (id, editedProperties) => (
   axios
-    .patch(`${BASE_URL}/${id}`, editedProperties)
+    .patch(`${BASE_URL}${id}`, editedProperties)
     .then((response) => response.data)
 );
 
