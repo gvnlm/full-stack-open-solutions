@@ -40,10 +40,17 @@ const App = () => {
 
   const updateSearchValue = (event) => setSearchValue(event.target.value);
 
+  const showCountry = (countryName) => {
+    setSearchMatches([]);
+    countriesService
+      .getByName(countryName)
+      .then((country) => setSearchedCountry(country));
+  };
+
   return (
     <div>
       <SearchBar searchValue={searchValue} updateSearchValue={updateSearchValue} />
-      <List list={searchMatches} />
+      <List list={searchMatches} showCountry={showCountry} />
       <Country country={searchedCountry} />
     </div>
   );
