@@ -66,6 +66,9 @@ const App = () => {
           notify(`Edited ${editedPerson.name}'s number`, 'edit');
         });
       
+      setNewName('');
+      setNewNumber('');
+      
       return;
     }
 
