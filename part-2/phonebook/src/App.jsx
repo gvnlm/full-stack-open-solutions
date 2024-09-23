@@ -65,21 +65,16 @@ const App = () => {
           );
           notify(`Edited ${editedPerson.name}'s number`, 'edit');
         });
-      
-      setNewName('');
-      setNewNumber('');
-      
-      return;
+    } else {
+      personService
+        // Add new person to back-end server (i.e., db.json)
+        .add({ name: newNameTrimmed, number: newNumber })
+        // Render new person to screen
+        .then((person) => {
+          setPersons([...persons, person]);
+          notify(`Added ${newNameTrimmed}`, 'add');
+        });
     }
-
-    personService
-      // Add new person to back-end server (i.e., db.json)
-      .add({ name: newNameTrimmed, number: newNumber })
-      // Render new person to screen
-      .then((person) => {
-        setPersons([...persons, person]);
-        notify(`Added ${newNameTrimmed}`, 'add');
-      });
 
     setNewName('');
     setNewNumber('');
