@@ -14,7 +14,8 @@ const getByName = (name) => (
     .then((response) => response.data)
 );
 
-export default { 
+export default {
+  BASE_URL, 
   getAll, 
   getByName,
 };

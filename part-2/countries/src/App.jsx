@@ -16,7 +16,8 @@ const App = () => {
       .getAll()
       .then((countries) => (
         setCountryNames(countries.map((country) => country.name.common))
-      ));
+      ))
+      .catch(() => alert(`Failed to fetch data from ${countriesService.BASE_URL}`));
   }, []);
 
   // Update search matches as search bar value changes
