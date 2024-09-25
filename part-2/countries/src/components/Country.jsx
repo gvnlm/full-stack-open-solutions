@@ -1,10 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import weatherService from '../services/openWeather';
 import Languages from './Languages';
 import Weather from './Weather';
 
 const Country = ({ country }) => {
   const [temperature, setTemperature] = useState(null);
+
+  // Whenever country changes, fetch its weather data from server
+  useEffect(() => {
+    if (!country) {
+      return;
+    }
+
+    const { latlng: [lat, lon] } = country;
+
+    weatherService
+      .getCurrentWeather(lat, lon)
+      .then((weather) => setTemperature(weather.main.temp));
+  }, [country]);
 
   if (!country) {
     return;
@@ -16,12 +29,7 @@ const Country = ({ country }) => {
     area,
     languages,
     flags: { png, alt },
-    latlng: [lat, lon],
   } = country;
-
-  weatherService
-    .getCurrentWeather(lat, lon)
-    .then((weather) => setTemperature(weather.main.temp));
 
   return (
     <div>
