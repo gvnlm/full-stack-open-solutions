@@ -38,6 +38,7 @@ const App = () => {
     );
   }, [searchValue]);
 
+  // Whenever search matches changes, update searched country
   useEffect(() => {
     if (searchMatches.length === 1) {
       countriesService
@@ -50,6 +51,7 @@ const App = () => {
 
   const updateSearchValue = (event) => setSearchValue(event.target.value);
 
+  // Manually sets searched country
   const showCountry = (countryName) => {
     setSearchMatches([]);
     countriesService
