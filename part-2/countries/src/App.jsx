@@ -20,8 +20,17 @@ const App = () => {
       .catch(() => alert(`Failed to fetch data from ${countriesService.BASE_URL}`));
   }, []);
 
-  // Update search matches as search bar value changes
+  // Whenever search value changes, update search matches if necessary
   useEffect(() => {
+    const newSearchMatches = countryNames.filter(
+      (name) => name.toLowerCase().includes(searchValue.toLowerCase().trim())
+    );
+
+    // If search matches have not changed, do nothing
+    if (arraysAreEqual(searchMatches, newSearchMatches)) {
+      return;
+    }
+
     setSearchMatches(
       countryNames.filter((name) => (
         name.toLowerCase().includes(searchValue.toLowerCase().trim())
@@ -55,6 +64,15 @@ const App = () => {
       <Country country={searchedCountry} />
     </div>
   );
+};
+
+// Returns true iff arrays xs and ys contain the same values in the same order
+const arraysAreEqual = (xs, ys) => {
+  if (xs.length !== ys.length) {
+    return false;
+  }
+
+  return xs.every((x, index) => x === ys[index]);
 };
 
 export default App;
