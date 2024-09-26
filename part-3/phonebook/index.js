@@ -31,10 +31,6 @@ let persons = [
   },
 ];
 
-app.get('/api/persons', (request, response) => {
-  response.json(persons);
-});
-
 app.get('/info', (request, response) => {
   const requestReceivedAt = new Date();
   response.send(`
@@ -43,6 +39,21 @@ app.get('/info', (request, response) => {
       ${requestReceivedAt}
     </p>
   `);
+});
+
+app.get('/api/persons', (request, response) => {
+  response.json(persons);
+});
+
+app.get('/api/persons/:id', (request, response) => {
+  const targetId = request.params.id;
+  const targetPerson = persons.find(({ id }) => id === targetId);
+
+  if (targetPerson) {
+    response.json(targetPerson);
+  } else {
+    response.status(404).end('Resource not found');
+  }
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
