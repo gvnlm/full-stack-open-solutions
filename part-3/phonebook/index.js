@@ -35,4 +35,14 @@ app.get('/api/persons', (request, response) => {
   response.json(persons);
 });
 
+app.get('/info', (request, response) => {
+  const requestReceivedAt = new Date();
+  response.send(`
+    <p>
+      Phonebook has info for ${persons.length} people<br/>
+      ${requestReceivedAt}
+    </p>
+  `);
+});
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
