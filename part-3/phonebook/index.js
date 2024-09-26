@@ -2,6 +2,7 @@ const PORT = 3001;
 
 // Imports
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 
 // Set up Express application
 const app = express();
@@ -60,6 +61,12 @@ app.delete('/api/persons/:id', (request, response) => {
   const targetId = request.params.id;
   persons = persons.filter(({ id }) => id !== targetId);
   response.status(204).end();
+});
+
+app.post('/api/persons', (request, response) => {
+  const newPerson = { ...request.body, id: uuidv4() };
+  persons = [ ...persons, newPerson ];
+  response.status(201).json(newPerson);
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
