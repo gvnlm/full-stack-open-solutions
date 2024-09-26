@@ -65,6 +65,22 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
   const newPerson = { ...request.body, id: uuidv4() };
+
+  if (!newPerson.name) {
+    response.status(400).end('Name is missing');
+    return;
+  }
+
+  if (!newPerson.number) {
+    response.status(400).end('Number is missing');
+    return;
+  }
+
+  if (persons.some((person) => person.name === newPerson.name)) {
+    response.status(400).end(`${newPerson.name} already has an entry`);
+    return;
+  }
+
   persons = [ ...persons, newPerson ];
   response.status(201).json(newPerson);
 });
