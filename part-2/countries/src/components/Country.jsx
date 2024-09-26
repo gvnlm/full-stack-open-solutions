@@ -36,7 +36,7 @@ const Country = ({ country }) => {
       <h1>{common}</h1>
 
       <p>
-        capital: {capital}<br />
+        capital: {capital.join(', ')}<br />
         area: {area} km<sup>2</sup>
       </p>
 
