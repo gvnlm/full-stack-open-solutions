@@ -3,10 +3,12 @@ const PORT = 3001;
 // Imports
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
+const morgan = require('morgan');
 
 // Set up Express application
 const app = express();
 app.use(express.json());
+app.use(morgan('tiny'));
 
 // Data
 let persons = [
