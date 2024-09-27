@@ -1,4 +1,5 @@
 const PORT = 3001;
+const MORGAN_FORMAT_STRING = ':method :url :status :res[content-length] - :response-time ms :request-body'
 
 // Imports
 const express = require('express');
@@ -8,7 +9,8 @@ const morgan = require('morgan');
 // Set up Express application
 const app = express();
 app.use(express.json());
-app.use(morgan('tiny'));
+morgan.token('request-body', (request, response) => JSON.stringify(request.body));
+app.use(morgan(MORGAN_FORMAT_STRING));
 
 // Data
 let persons = [
