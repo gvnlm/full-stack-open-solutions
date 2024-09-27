@@ -1,13 +1,15 @@
 const PORT = 3001;
-const MORGAN_FORMAT_STRING = ':method :url :status :res[content-length] - :response-time ms :request-body'
+const MORGAN_FORMAT_STRING = ':method :url :status :res[content-length] - :response-time ms :request-body';
 
 // Imports
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const morgan = require('morgan');
+const cors = require('cors');
 
 // Set up Express application
 const app = express();
+app.use(cors());
 app.use(express.json());
 morgan.token('request-body', (request, response) => JSON.stringify(request.body));
 app.use(morgan(MORGAN_FORMAT_STRING));

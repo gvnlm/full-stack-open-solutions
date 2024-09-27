@@ -1,0 +1,20 @@
+.notification {
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.add {
+  color: green;
+}
+
+.remove {
+  color: red;
+}
+
+.edit {
+  color: blue;
+}
