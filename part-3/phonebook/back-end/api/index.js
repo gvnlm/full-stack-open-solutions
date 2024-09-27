@@ -1,4 +1,3 @@
-const PORT = 3001;
 const MORGAN_FORMAT_STRING = ':method :url :status :res[content-length] - :response-time ms :request-body';
 
 // Imports
@@ -38,7 +37,7 @@ let persons = [
   },
 ];
 
-app.get('/info', (request, response) => {
+app.get('/', (request, response) => {
   const requestReceivedAt = new Date();
   response.send(`
     <p>
@@ -91,4 +90,5 @@ app.post('/api/persons', (request, response) => {
   response.status(201).json(newPerson);
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports = app;
