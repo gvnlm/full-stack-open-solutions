@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3001/api/persons';
+const BASE_URL = 'https://phonebook-back-end.vercel.app/api/persons';
 
 const getAll = () => (
   axios
