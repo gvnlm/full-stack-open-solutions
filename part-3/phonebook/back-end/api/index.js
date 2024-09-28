@@ -1,4 +1,5 @@
 const MORGAN_FORMAT_STRING = ':method :url :status :res[content-length] - :response-time ms :request-body';
+const DEPLOYMENT_DOMAIN = 'https://phonebook-back-end.vercel.app'
 
 // Imports
 const express = require('express');
@@ -44,6 +45,24 @@ app.get('/', (request, response) => {
       Phonebook has info for ${persons.length} people<br/>
       ${requestReceivedAt}
     </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Endpoint</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href=${DEPLOYMENT_DOMAIN}/api/persons>/api/persons</a></td>
+          <td>All people</td>
+        </tr>
+        <tr>
+          <td><a href=${DEPLOYMENT_DOMAIN}/api/persons/1>/api/persons/{id}</a></td>
+          <td>Search by person's id</td>
+        </tr>
+      </tbody>
+    </table>
   `);
 });
 
