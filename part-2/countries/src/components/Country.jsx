@@ -25,7 +25,7 @@ const Country = ({ country }) => {
 
   const {
     name: { common },
-    capital,
+    capital = ['N/A'],
     area,
     languages,
     flags: { png, alt },
