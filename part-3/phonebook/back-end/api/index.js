@@ -1,5 +1,4 @@
 const MORGAN_FORMAT_STRING = ':method :url :status :res[content-length] - :response-time ms :request-body';
-const DEPLOYMENT_DOMAIN = 'https://phonebook-back-end.vercel.app';
 const LOCAL_PORT = 3001;
 
 // Imports
@@ -40,6 +39,7 @@ let persons = [
 ];
 
 app.get('/', (request, response) => {
+  const rootUrl = `${request.protocol}://${request.get('host')}`
   const requestReceivedAt = new Date();
   response.send(`
     <p>
@@ -55,11 +55,11 @@ app.get('/', (request, response) => {
       </thead>
       <tbody>
         <tr>
-          <td><a href=${DEPLOYMENT_DOMAIN}/api/persons>/api/persons</a></td>
+          <td><a href=${rootUrl}/api/persons>/api/persons</a></td>
           <td>All people</td>
         </tr>
         <tr>
-          <td><a href=${DEPLOYMENT_DOMAIN}/api/persons/1>/api/persons/{id}</a></td>
+          <td><a href=${rootUrl}/api/persons/1>/api/persons/{id}</a></td>
           <td>Search by person's id</td>
         </tr>
       </tbody>
