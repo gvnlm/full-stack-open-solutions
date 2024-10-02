@@ -3,7 +3,6 @@ const LOCAL_PORT = 3001;
 
 // Imports
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
 const morgan = require('morgan');
 const cors = require('cors');
 const Person = require('../models/person');
@@ -92,25 +91,28 @@ app.delete('/api/persons/:id', (request, response) => {
 });
 
 app.post('/api/persons', (request, response) => {
-  const newPerson = { ...request.body, id: uuidv4() };
+  const newPerson = new Person(request.body);
 
   if (!newPerson.name) {
     response.status(400).end('Name is missing');
     return;
   }
-
   if (!newPerson.number) {
     response.status(400).end('Number is missing');
     return;
   }
 
-  if (persons.some((person) => person.name === newPerson.name)) {
-    response.status(400).end(`${newPerson.name} already has an entry`);
-    return;
-  }
-
-  persons = [ ...persons, newPerson ];
-  response.status(201).json(newPerson);
+  Person
+    .find({ name: newPerson.name })
+    .then((persons) => {
+      if (persons.length) {
+        response.status(400).end(`${newPerson.name} already has an entry`);
+      } else {
+        newPerson
+          .save()
+          .then((savedPerson) => response.status(201).json(savedPerson));
+      }
+    });
 });
 
 // For non-production environments, start server on specified local port
