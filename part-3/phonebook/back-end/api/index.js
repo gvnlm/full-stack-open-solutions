@@ -1,5 +1,6 @@
 const MORGAN_FORMAT_STRING = ':method :url :status :res[content-length] - :response-time ms :request-body';
-const DEPLOYMENT_DOMAIN = 'https://phonebook-back-end.vercel.app'
+const DEPLOYMENT_DOMAIN = 'https://phonebook-back-end.vercel.app';
+const LOCAL_PORT = 3001;
 
 // Imports
 const express = require('express');
@@ -109,5 +110,10 @@ app.post('/api/persons', (request, response) => {
   response.status(201).json(newPerson);
 });
 
+// For non-production environments, start server on specified local port
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(LOCAL_PORT, () => console.log(`Server running at http://localhost:${LOCAL_PORT}`));
+}
 
+// Export app for use in serverless environments (e.g., Vercel)
 module.exports = app;
