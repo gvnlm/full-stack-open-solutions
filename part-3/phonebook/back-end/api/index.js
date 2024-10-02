@@ -6,6 +6,7 @@ const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const morgan = require('morgan');
 const cors = require('cors');
+const Person = require('../models/person');
 
 // Set up Express application
 const app = express();
@@ -68,7 +69,9 @@ app.get('/', (request, response) => {
 });
 
 app.get('/api/persons', (request, response) => {
-  response.json(persons);
+  Person
+    .find({})
+    .then(persons => response.json(persons));
 });
 
 app.get('/api/persons/:id', (request, response) => {

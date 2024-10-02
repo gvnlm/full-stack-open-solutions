@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://phonebook-back-end.vercel.app/api/persons';
+const BASE_URL = import.meta.env.VITE_PERSONS_API_BASE_URL;
 
 const getAll = () => (
   axios
