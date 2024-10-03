@@ -119,6 +119,15 @@ app.post('/api/persons', (request, response, next) => {
     .catch((error) => next(error));
 });
 
+app.patch('/api/persons/:id', (request, response, next) => {
+  const targetId = request.params.id;
+  const updatedProperties = request.body;
+  Person
+    .findByIdAndUpdate(targetId, updatedProperties, { new: true })
+    .then((updatedPerson) => response.status(200).json(updatedPerson))
+    .catch((error) => next(error));
+});
+
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
 
