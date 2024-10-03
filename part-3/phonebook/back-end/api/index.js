@@ -14,30 +14,6 @@ app.use(express.json());
 morgan.token('request-body', (request, response) => JSON.stringify(request.body));
 app.use(morgan(MORGAN_FORMAT_STRING));
 
-// Data
-let persons = [
-  {
-    id: '1',
-    name: 'Arto Hellas',
-    number: '040-123456',
-  },
-  {
-    id: '2',
-    name: 'Ada Lovelace',
-    number: '39-44-5323523',
-  },
-  {
-    id: '3',
-    name: 'Dan Abramov',
-    number: '12-43-234345',
-  },
-  {
-    id: '4',
-    name: 'Mary Poppendieck',
-    number: '39-23-6423122',
-  },
-];
-
 app.get('/', (request, response, next) => {
   const rootUrl = `${request.protocol}://${request.get('host')}`
   const requestReceivedAt = new Date();
@@ -76,13 +52,16 @@ app.get('/api/persons', (request, response, next) => {
 
 app.get('/api/persons/:id', (request, response, next) => {
   const targetId = request.params.id;
-  const targetPerson = persons.find(({ id }) => id === targetId);
-
-  if (targetPerson) {
-    response.json(targetPerson);
-  } else {
-    response.status(404).end('Resource not found');
-  }
+  Person
+    .findById(targetId)
+    .then((person) => {
+      if (person) {
+        response.status(200).json(person);
+      } else {
+        response.status(404).end('Resource not found');
+      }
+    })
+    .catch((error) => next(error));
 });
 
 app.delete('/api/persons/:id', (request, response, next) => {
