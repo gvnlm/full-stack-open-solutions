@@ -38,7 +38,7 @@ let persons = [
   },
 ];
 
-app.get('/', (request, response) => {
+app.get('/', (request, response, next) => {
   const rootUrl = `${request.protocol}://${request.get('host')}`
   const requestReceivedAt = new Date();
   response.send(`
@@ -67,13 +67,14 @@ app.get('/', (request, response) => {
   `);
 });
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
   Person
     .find({})
-    .then(persons => response.json(persons));
+    .then((persons) => response.json(persons))
+    .catch((error) => next(error));
 });
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   const targetId = request.params.id;
   const targetPerson = persons.find(({ id }) => id === targetId);
 
@@ -84,14 +85,15 @@ app.get('/api/persons/:id', (request, response) => {
   }
 });
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   const targetId = request.params.id;
   Person
     .findByIdAndDelete(targetId)
-    .then((person) => response.status(204).end());
+    .then((person) => response.status(204).end())
+    .catch((error) => next(error));
 });
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const newPerson = new Person(request.body);
 
   if (!newPerson.name) {
@@ -113,8 +115,23 @@ app.post('/api/persons', (request, response) => {
           .save()
           .then((savedPerson) => response.status(201).json(savedPerson));
       }
-    });
+    })
+    .catch((error) => next(error));
 });
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === 'CastError') {
+    response.status(400).send('Failed to query database by ID - Invalid MongoDB ObjectId string');
+    return;
+  }
+  
+  // Forward error to default Express error handler
+  next(error);
+}
+
+app.use(errorHandler);
 
 // For non-production environments, start server on specified local port
 if (process.env.NODE_ENV !== 'production') {
