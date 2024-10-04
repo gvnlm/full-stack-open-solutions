@@ -74,16 +74,6 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 app.post('/api/persons', (request, response, next) => {
   const newPerson = new Person(request.body);
-
-  if (!newPerson.name) {
-    response.status(400).end('Name is missing');
-    return;
-  }
-  if (!newPerson.number) {
-    response.status(400).end('Number is missing');
-    return;
-  }
-
   Person
     .find({ name: newPerson.name })
     .then((persons) => {
@@ -92,7 +82,8 @@ app.post('/api/persons', (request, response, next) => {
       } else {
         newPerson
           .save()
-          .then((savedPerson) => response.status(201).json(savedPerson));
+          .then((savedPerson) => response.status(201).json(savedPerson))
+          .catch((error) => next(error));
       }
     })
     .catch((error) => next(error));
@@ -101,8 +92,9 @@ app.post('/api/persons', (request, response, next) => {
 app.patch('/api/persons/:id', (request, response, next) => {
   const targetId = request.params.id;
   const updatedProperties = request.body;
+  const options = { new: true, runValidators: true, context: 'query' };
   Person
-    .findByIdAndUpdate(targetId, updatedProperties, { new: true })
+    .findByIdAndUpdate(targetId, updatedProperties, options)
     .then((updatedPerson) => response.status(200).json(updatedPerson))
     .catch((error) => next(error));
 });
@@ -112,6 +104,11 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     response.status(400).send('Failed to query database by ID - Invalid MongoDB ObjectId string');
+    return;
+  }
+
+  if (error.name === 'ValidationError') {
+    response.status(400).json(error.message);
     return;
   }
   

@@ -34,16 +34,6 @@ const App = () => {
     // Remove leading and trailing whitespace characters
     const newNameTrimmed = newName.trim();
 
-    // Ensure both input fields are non-empty
-    if (newNameTrimmed === '') {
-      alert('Please enter a name.');
-      return;
-    }
-    if (newNumber === '') {
-      alert('Please enter a number.');
-      return;
-    }
-
     const duplicate = persons.find(({ name }) => name === newNameTrimmed);
 
     // If person's number is already in phonebook
@@ -64,7 +54,10 @@ const App = () => {
             )
           );
           notify(`Edited ${editedPerson.name}'s number`, 'success');
-        });
+          setNewName('');
+          setNewNumber('');
+        })
+        .catch((error) => notify(error.response.data, 'error'));
     } else {
       personService
         // Add new person to back-end server (i.e., db.json)
@@ -73,11 +66,11 @@ const App = () => {
         .then((person) => {
           setPersons([...persons, person]);
           notify(`Added ${newNameTrimmed}`, 'success');
-        });
+          setNewName('');
+          setNewNumber('');
+        })
+        .catch((error) => notify(error.response.data, 'error'));
     }
-
-    setNewName('');
-    setNewNumber('');
   };
 
   const removePerson = (id) => {
