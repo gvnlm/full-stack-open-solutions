@@ -1,3 +1,6 @@
+// Regex for Australian mobile and landline phone numbers
+const PHONE_REGEX = /^(\+61|0)[23478]([- ]?\d){8}$/;
+
 // Imports
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -19,6 +22,10 @@ const personSchema = new mongoose.Schema({
   number: {
     type: String,
     required: true,
+    validate: {
+      validator: (string) => PHONE_REGEX.test(string),
+      message: (props) => `${props.value} is not a valid Australian phone number`
+    },
   },
 });
 
