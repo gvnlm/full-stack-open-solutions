@@ -19,7 +19,6 @@ app.get('/', (request, response, next) => {
   const requestReceivedAt = new Date();
   response.send(`
     <p>
-      Phonebook has info for ${persons.length} people<br/>
       ${requestReceivedAt}
     </p>
     <table>
@@ -35,7 +34,7 @@ app.get('/', (request, response, next) => {
           <td>All people</td>
         </tr>
         <tr>
-          <td><a href=${rootUrl}/api/persons/1>/api/persons/{id}</a></td>
+          <td><p>/api/persons/{id}</p></td>
           <td>Search by person's id</td>
         </tr>
       </tbody>
