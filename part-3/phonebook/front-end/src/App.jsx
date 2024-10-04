@@ -7,7 +7,7 @@ import personService from './services/persons';
 
 const App = () => {
   // Constants
-  const NOTIFICATION_TIMEOUT = 3000;
+  const NOTIFICATION_TIMEOUT = 5000;
 
   // States
   const [persons, setPersons] = useState([]);
@@ -63,7 +63,7 @@ const App = () => {
               (person) => (person.id === editedPerson.id) ? editedPerson : person
             )
           );
-          notify(`Edited ${editedPerson.name}'s number`, 'edit');
+          notify(`Edited ${editedPerson.name}'s number`, 'success');
         });
     } else {
       personService
@@ -72,7 +72,7 @@ const App = () => {
         // Render new person to screen
         .then((person) => {
           setPersons([...persons, person]);
-          notify(`Added ${newNameTrimmed}`, 'add');
+          notify(`Added ${newNameTrimmed}`, 'success');
         });
     }
 
@@ -89,8 +89,8 @@ const App = () => {
     
     personService
       .remove(id)
-      .then(() => notify(`Removed ${name}`, 'remove'))
-      .catch(() => notify(`Information of ${name} has already been removed from server`, 'remove'));
+      .then(() => notify(`Removed ${name}`, 'success'))
+      .catch(() => notify(`Information of ${name} has already been removed from server`, 'error'));
 
     setPersons(persons.filter((person) => person.id !== id));
   };

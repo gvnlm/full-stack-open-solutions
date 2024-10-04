@@ -7,14 +7,10 @@
   margin-bottom: 10px;
 }
 
-.add {
+.success {
   color: green;
 }
 
-.remove {
+.error {
   color: red;
-}
-
-.edit {
-  color: blue;
 }
